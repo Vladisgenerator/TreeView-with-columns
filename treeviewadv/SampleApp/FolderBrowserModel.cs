@@ -11,7 +11,6 @@ using System.Threading;
 
 using BEComponent = BusinessEntities.Component;
 
-
 namespace SampleApp
 {
     /// <summary>
