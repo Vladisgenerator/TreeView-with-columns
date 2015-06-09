@@ -19,13 +19,13 @@ namespace SampleApp
 		[STAThread]
 		static void Main()
 		{
-            UserDevice = new Device("Устройство");
-            UserDevice.Modules.Add(new Module("Первый модуль без свойств"));
-            UserDevice.Modules.Add(new Module("Второй модуль 100 now", 100, DateTime.Now));
-            UserDevice.Modules[0].Modules.Add(new Module("Вложенный модуль"));
-            UserDevice.Modules[0].Components.Add(new Component("Вложенный компонент 255 now + 1h", 255, DateTime.Now.AddHours(1)));
-            UserDevice.Modules.Add(new Module("Третий модуль 144 utc", 144, DateTime.UtcNow));
-            UserDevice.Components.Add(new Component("Первый компонент 111 now", 111, DateTime.Now));
+            UserDevice = new Device("1 Устройство");
+            UserDevice.Modules.Add(new Module("2-0-1 Первый модуль без свойств"));
+            UserDevice.Modules.Add(new Module("2-0-2 Второй модуль 100 now", 100, DateTime.Now));
+            UserDevice.Modules[0].Modules.Add(new Module("3-0-1 Вложенный модуль"));
+            UserDevice.Modules[0].Components.Add(new Component("3-1-1 Вложенный компонент 255 now + 1h", 255, DateTime.Now.AddHours(1)));
+            UserDevice.Modules.Add(new Module("2-0-3 Третий модуль 144 utc", 144, DateTime.UtcNow));
+            UserDevice.Components.Add(new Component("2-1-1 Первый компонент 111 now", 111, DateTime.Now));
 
 
 

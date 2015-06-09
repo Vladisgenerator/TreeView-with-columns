@@ -9,6 +9,8 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 
+using BEComponent = BusinessEntities.Component;
+
 
 namespace SampleApp
 {
@@ -127,17 +129,30 @@ namespace SampleApp
 						items = new List<BaseItem>();
 						try
 						{
-                            foreach (Module m in Program.UserDevice.Modules)
-                                items.Add(new FolderItem(m.Name, m, parent, this));
-                            foreach (BusinessEntities.Component c in Program.UserDevice.Components)
-                                items.Add(new FileItem(c.Name, c, parent, this));
-                            //foreach (string str in Directory.GetDirectories(parent.Name))
-                            //    items.Add(new FolderItem(str, parent, this));
-                            //foreach (string str in Directory.GetFiles(parent.Name))
-                            //{
-                            //    FileItem item = new FileItem(str, parent, this);
-                            //    items.Add(item);
-                            //}
+                            if (parent.Tag is Module)
+                            {
+                                Module module = parent.Tag as Module;
+
+                                foreach (Module m in module.Modules)
+                                    items.Add(new FolderItem(m.Name, m, parent, this));
+                                foreach (BEComponent c in module.Components)
+                                    items.Add(new FileItem(c.Name, c, parent, this));
+                                //foreach (string str in Directory.GetDirectories(parent.Name))
+                                //    items.Add(new FolderItem(str, parent, this));
+                                //foreach (string str in Directory.GetFiles(parent.Name))
+                                //{
+                                //    FileItem item = new FileItem(str, parent, this);
+                                //    items.Add(item);
+                                //}
+                            }
+                            else if (parent.Tag is Device)
+                            {
+                                Device device = parent.Tag as Device;
+                                foreach (Module m in device.Modules)
+                                    items.Add(new FolderItem(m.Name, m, parent, this));
+                                foreach (BEComponent c in device.Components)
+                                    items.Add(new FileItem(c.Name, c, parent, this));
+                            }
 						}
 						catch (IOException)
 						{
