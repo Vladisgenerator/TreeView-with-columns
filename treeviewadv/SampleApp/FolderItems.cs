@@ -1,3 +1,5 @@
+using BusinessEntities;
+//using BusinessEntities;
 using System;
 using System.Drawing;
 using System.IO;
@@ -13,6 +15,15 @@ namespace SampleApp
         /// Имя объекта
         /// </summary>
         public abstract string Name
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Объект устройства, с которым связан данный объект дерева
+        /// </summary>
+        public BaseComponent Tag
         {
             get;
             set;
@@ -121,9 +132,10 @@ namespace SampleApp
         /// </summary>
         /// <param name="name">Имя корневого объекта</param>
         /// <param name="owner">Модель-владелец корневого объекта</param>
-		public RootItem(string name, FolderBrowserModel owner)
+		public RootItem(string name, Device device, FolderBrowserModel owner)
 		{
 			Name = name;
+            Tag = device;
 			Owner = owner;
 		}
 
@@ -158,9 +170,10 @@ namespace SampleApp
         /// <param name="name">Имя промежуточного объекта</param>
         /// <param name="parent">Родительский объект</param>
         /// <param name="owner">Модель-владелец объекта</param>
-		public FolderItem(string name, BaseItem parent, FolderBrowserModel owner)
+		public FolderItem(string name, Module module, BaseItem parent, FolderBrowserModel owner)
 		{
 			Name = name;
+            Tag = module;
 			Parent = parent;
 			Owner = owner;
 		}
@@ -187,9 +200,10 @@ namespace SampleApp
         /// <param name="name">Имя листового объекта</param>
         /// <param name="parent">Родительский объект</param>
         /// <param name="owner">Модель-владелец дерева</param>
-		public FileItem(string name, BaseItem parent, FolderBrowserModel owner)
+		public FileItem(string name, Component component, BaseItem parent, FolderBrowserModel owner)
 		{
 			Name = name;
+            Tag = component;
 			Parent = parent;
 			Owner = owner;
 		}
