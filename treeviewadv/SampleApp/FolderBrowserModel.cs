@@ -1,13 +1,11 @@
 #pragma warning disable 67  // Event never used
 
+using Aga.Controls.Tree;
 using System;
 using System.Collections.Generic;
-
-
-using Aga.Controls.Tree;
-using System.IO;
-using System.Drawing;
 using System.ComponentModel;
+using System.Drawing;
+using System.IO;
 using System.Threading;
 
 namespace SampleApp
@@ -38,22 +36,22 @@ namespace SampleApp
 				Thread.Sleep(50); //emulate time consuming operation
 				if (item is FolderItem)
 				{
-					DirectoryInfo info = new DirectoryInfo(item.ItemPath);
-					item.Date = info.CreationTime;
+					DirectoryInfo info = new DirectoryInfo(item.Name);
+					item.Param2 = info.CreationTime;
 				}
 				else if (item is FileItem)
 				{
-					FileInfo info = new FileInfo(item.ItemPath);
-					item.Size = info.Length;
-					item.Date = info.CreationTime;
+					FileInfo info = new FileInfo(item.Name);
+					item.Param1 = info.Length;
+					item.Param2 = info.CreationTime;
 					if (info.Extension.ToLower() == ".ico")
 					{
-						Icon icon = new Icon(item.ItemPath);
+						Icon icon = new Icon(item.Name);
 						item.Icon = icon.ToBitmap();
 					}
 					else if (info.Extension.ToLower() == ".bmp")
 					{
-						item.Icon = new Bitmap(item.ItemPath);
+						item.Icon = new Bitmap(item.Name);
 					}
 				}
 				_worker.ReportProgress(0, item);
@@ -101,16 +99,16 @@ namespace SampleApp
 				BaseItem parent = treePath.LastNode as BaseItem;
 				if (parent != null)
 				{
-					if (_cache.ContainsKey(parent.ItemPath))
-						items = _cache[parent.ItemPath];
+					if (_cache.ContainsKey(parent.Name))
+						items = _cache[parent.Name];
 					else
 					{
 						items = new List<BaseItem>();
 						try
 						{
-							foreach (string str in Directory.GetDirectories(parent.ItemPath))
+							foreach (string str in Directory.GetDirectories(parent.Name))
 								items.Add(new FolderItem(str, parent, this));
-							foreach (string str in Directory.GetFiles(parent.ItemPath))
+							foreach (string str in Directory.GetFiles(parent.Name))
 							{
 								FileItem item = new FileItem(str, parent, this);
 								items.Add(item);
@@ -120,7 +118,7 @@ namespace SampleApp
 						{
 							return null;
 						}
-						_cache.Add(parent.ItemPath, items);
+						_cache.Add(parent.Name, items);
 						_itemsToRead.AddRange(items);
 						if (!_worker.IsBusy)
 							_worker.RunWorkerAsync();

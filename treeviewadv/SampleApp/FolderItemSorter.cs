@@ -22,12 +22,12 @@ namespace SampleApp
 			int res = 0;
 
 			if (_mode == "Date")
-				res = DateTime.Compare(a.Date, b.Date);
+				res = DateTime.Compare(a.Param2, b.Param2);
 			else if (_mode == "Size")
 			{
-				if (a.Size < b.Size)
+				if (a.Param1 < b.Param1)
 					res = -1;
-				else if (a.Size > b.Size)
+				else if (a.Param1 > b.Param1)
 					res = 1;
 			}
 			else
